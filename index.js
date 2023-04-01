@@ -2,15 +2,15 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-
-// Serve the index.html file when the root URL is requested
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Add your other server logic here
-
 const port = process.env.PORT || 3000;
+
+// Serve static files from the React build folder
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Redirect all requests to the React index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
